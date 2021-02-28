@@ -33,7 +33,7 @@ Download and install `roxy`, then run it in HTTP-only mode.
 
 ```bash
 $ # Let's go!!
-$ go install scm.lagraff.me/roxy
+$ go install github.com/clagraff/roxy
 $ roxy -http -p server1.localhost=127.0.0.1:9001 -p server2.localhost=127.0.0.1:9002 &
 ``` 
 
