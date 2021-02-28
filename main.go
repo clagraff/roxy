@@ -174,7 +174,7 @@ func main() {
 		wrapper := newStatusCodeCapturer(w)
 
 		defer func() {
-			dur := time.Now().Sub(start)
+			dur := time.Since(start)
 			status := wrapper.statusCode
 
 			log.Printf("method=%s host=%s path=%s status=%d dur=%s\n", r.Method, r.Host, r.URL.Path, status, dur)
@@ -194,7 +194,7 @@ func main() {
 	})
 
 	if progArgs.useHTTP {
-		log.Fatal(http.ListenAndServe(fmt.Sprintf(":http"), nil))
+		log.Fatal(http.ListenAndServe(":http", nil))
 	} else {
 		m := &autocert.Manager{
 			Cache:      autocert.DirCache("secret-dir"),
