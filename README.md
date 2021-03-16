@@ -1,3 +1,9 @@
+![](.github/logo.png)
+
+[![Go Workflow](https://github.com/clagraff/roxy/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/clagraff/roxy/actions/workflows/go.yml?query=branch%3Amain)
+[![Go Reference](https://pkg.go.dev/badge/github.com/clagraff/roxy.svg)](https://pkg.go.dev/github.com/clagraff/roxy)
+[![Go Report Card](https://goreportcard.com/badge/github.com/clagraff/roxy)](https://goreportcard.com/report/github.com/clagraff/roxy)
+
 # roxy
 
 `roxy` is a minimalistic reverse proxy server for forwarding requests based on the requested (sub) domain. 
@@ -5,6 +11,15 @@
 It is for servicing external requests, supporting both http (`:80`) and https (`:443`). For HTTPS, `roxy`
 utilizes automatic certificate generation using Let's Encrypt. 
 
+Eg:
+
+```bash
+$ go install github.com/clagraff/roxy
+$ roxy -http -p blog.mydomain.com=127.0.0.1:9010 -p wiki.mydomain.com=127.0.0.1:9020
+``` 
+
+
+## Example
 **Example Setup**
 
 We are going to setup `roxy` to serve requests between two different servers (we will run using python).
