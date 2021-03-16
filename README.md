@@ -10,6 +10,15 @@
 It is for servicing external requests, supporting both http (`:80`) and https (`:443`). For HTTPS, `roxy`
 utilizes automatic certificate generation using Let's Encrypt. 
 
+Eg:
+
+```bash
+$ go install github.com/clagraff/roxy
+$ roxy -http -p blog.mydomain.com=127.0.0.1:9010 -p wiki.mydomain.com=127.0.0.1:9020
+``` 
+
+
+## Example
 **Example Setup**
 
 We are going to setup `roxy` to serve requests between two different servers (we will run using python).
