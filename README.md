@@ -1,3 +1,8 @@
+![](.github/logo.png)
+[![Go Workflow](https://github.com/clagraff/roxy/actions/workflows/go.yml/badge.svgbranch=main)](https://github.com/clagraff/roxy/actions/workflows/go.yml?query=branch%3Amain)
+[![Go Reference](https://pkg.go.dev/badge/github.com/clagraff/roxy.svg)](https://pkg.go.dev/github.com/clagraff/roxy)
+[![Go Report Card](https://goreportcard.com/badge/github.com/clagraff/roxy)](https://goreportcard.com/report/github.com/clagraff/roxy)
+
 # roxy
 
 `roxy` is a minimalistic reverse proxy server for forwarding requests based on the requested (sub) domain. 
