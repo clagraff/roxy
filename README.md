@@ -9,14 +9,48 @@
 `roxy` is a minimalistic reverse proxy server for forwarding requests based on the requested (sub) domain. 
 
 It is for servicing external requests, supporting both http (`:80`) and https (`:443`). For HTTPS, `roxy`
-utilizes automatic certificate generation using Let's Encrypt. 
+utilizes automatic certificate generation using Golang's `autocert` package for non-localhost domains.. 
 
 Eg:
 
 ```bash
 $ go install github.com/clagraff/roxy
-$ roxy -http -p blog.mydomain.com=127.0.0.1:9010 -p wiki.mydomain.com=127.0.0.1:9020
+$ roxy -p blog.mydomain.com=127.0.0.1:9010 -p wiki.mydomain.com=127.0.0.1:9020 -p http://old.mydomain.com=127.0.0.1:8001
 ``` 
+
+```bash
+$ roxy -h
+Usage of roxy:    
+  -c string
+        Path to store auto-generated certs for non-localhost hosts (default "./certs")
+  -h    show help & usage
+  -p value
+        proxy definition describing an origin and upstream url to proxy, eg: origin=upstream
+  -r    turn off automatic HTTP redirects (on by default)
+
+Proxy pattern
+  origin, upstream:     [scheme://]hostname[:port]
+
+  [scheme://]
+        Optional; origin defaults to https; upstream defaults to http.
+  [:port]
+        Optional; defaults to :80 and :443 for HTTP and HTTPS if not specified.
+
+  examples:
+        Bare minimum:           origin=upstream
+        With schemes:           https://origin=http://upstream
+        With ports:             origin:443=upstream:9090
+        With subdomains:        https://sub.origin=upstream:8001
+
+Self-signed localhost cert(s)
+  When a localhost domain is specified as an origin, a self-signed,
+  untrusted certificate will be created for it.
+  Depending on your HTTP client, you may need to install/trust the certificate
+  for requests to be successful, or use a non-https version of the domain.
+    	
+    	
+$ roxy -p api.localhost=localhost:9090
+```
 
 
 ## Example
@@ -49,7 +83,7 @@ Download and install `roxy`, then run it in HTTP-only mode.
 ```bash
 $ # Let's go!!
 $ go install github.com/clagraff/roxy
-$ roxy -http -p server1.localhost=127.0.0.1:9001 -p server2.localhost=127.0.0.1:9002 &
+$ roxy -p server1.localhost=127.0.0.1:9001 -p server2.localhost=127.0.0.1:9002
 ``` 
 
 **Try it out**
@@ -66,7 +100,7 @@ Server 2
 ## Usage
 ### Automatic Certificate Generation
 `roxy` will use HTTPS (`:443`) by default, and generate certificates automatically based
-on the host(s) specified using `-p` / `-proxy`.
+on the host(s) specified using `-p` flag. For origins with an explicit `http` scheme, cert generation does not occur.
 
 Take the following command as an example:
 
@@ -88,20 +122,3 @@ of writing is 50 per week.
 
 ## Help
 You can use `-h / --help` at any time to view available options.
-
-```bash
-$ roxy -h
-Usage of roxy:
-  -h	show help (shorthand)
-  -help
-    	show help
-  -http
-    	use http, instead of https with autocerts
-  -p value
-    	add a new proxy (domain=port)
-  -proxy value
-    	add a new proxy (domain=port)
-    	
-    	
-$ roxy -p api.localhost=localhost:9090
-```
