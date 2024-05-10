@@ -69,7 +69,7 @@ func parseProxyDefinition(def string) (proxyConfig, error) {
 	settings.upstream = upstream
 	settings.proxy = httputil.NewSingleHostReverseProxy(upstream)
 
-	log.Println(fmt.Sprintf("creating reverse proxy: %s to %s", origin, upstream))
+	log.Printf("creating reverse proxy: %s to %s", origin, upstream)
 	return settings, nil
 }
 

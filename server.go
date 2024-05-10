@@ -58,18 +58,6 @@ func (capturer *statusCodeCapturer) WriteHeader(i int) {
 	capturer.originalWriter.WriteHeader(i)
 }
 
-// httpRedirect redirects all HTTP requests to HTTPS
-func httpRedirect(w http.ResponseWriter, r *http.Request) {
-	// Get the host from the request header
-	host := r.Host
-
-	// Change the URL scheme to https
-	target := "https://" + host + r.RequestURI
-
-	// Set HTTP status code to 301 Moved Permanently for SEO and caching purposes
-	http.Redirect(w, r, target, http.StatusMovedPermanently)
-}
-
 func proxyInboundRequest(mutex *sync.RWMutex, proxies map[proxyKey]proxyConfig, noHttpRedirect bool) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
