@@ -1,0 +1,8 @@
+version: '3'
+
+tasks:
+  docker:
+    cmds:
+      - docker build -t roxy:latest .
+      - docker tag roxy:latest clagraff/roxy:latest
+      - docker push clagraff/roxy:latest

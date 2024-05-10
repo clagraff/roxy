@@ -101,4 +101,7 @@ Usage of roxy:
     	add a new proxy (domain=port)
   -proxy value
     	add a new proxy (domain=port)
+    	
+    	
+$ roxy -p api.localhost=localhost:9090
 ```
