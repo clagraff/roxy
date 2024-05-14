@@ -18,6 +18,14 @@ $ go install github.com/clagraff/roxy
 $ roxy -p blog.mydomain.com=127.0.0.1:9010 -p wiki.mydomain.com=127.0.0.1:9020 -p http://old.mydomain.com=127.0.0.1:8001
 ``` 
 
+or using docker:
+
+```bash
+$ docker pull clagraff/roxy
+$ docker run -d -p 80:80 -p 443:443 clagraff/roxy -p blog.mydomain.com=blog:80 -p wiki.mydomain.com=wiki:80 -p http://old.mydomain.com=https://new.domain
+```
+
+
 ```bash
 $ roxy -h
 Usage of roxy:    

@@ -14,4 +14,5 @@ COPY --from=builder /app/roxy .
 
 # Set the port and run the application
 EXPOSE 80
+EXPOSE 443
 ENTRYPOINT ["./roxy"]
