@@ -3,10 +3,6 @@ name: Go and Docker Workflow
 on:
   push:
     branches: [ main ]
-    tags:
-      - 'v*'
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -62,7 +58,6 @@ jobs:
           push: true
           tags: |
             clagraff/roxy:latest
-            clagraff/roxy:${{ steps.vars.outputs.tag }}
         env:
           TAG_NAME: ${{ github.ref_name }}
 
