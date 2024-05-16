@@ -1,3 +1,25 @@
+// MIT License
+//
+// Copyright (c) 2021 Curtis La Graff
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 package main
 
 import (
@@ -30,8 +52,11 @@ type programArguments struct {
 	// proxies stores all user-specified origin=upstream proxy pairs.
 	proxies stringList
 
-	// certPath is a directory where autocert should store generated TLS certificates.
+	// certPath is a directory where certificates should stored.
 	certPath string
+
+	// email used by CAs to notify about problems with issued certificates.
+	email string
 
 	// noHttpRedirect indicates if non-proxied HTTP requests should be redirected to their HTTPS equivalent.
 	// Note that no checks are done to ensure the new HTTPS origin actually exists.
@@ -50,7 +75,8 @@ func parseProgramArguments(args []string) (programArguments, error) {
 
 	set.BoolVar(&progArgs.showHelp, "h", false, "show help & usage")
 	set.Var(&progArgs.proxies, "p", "proxy definition describing an origin and upstream url to proxy, eg: origin=upstream")
-	set.StringVar(&progArgs.certPath, "c", "./certs", "Path to store auto-generated certs for non-localhost hosts")
+	set.StringVar(&progArgs.certPath, "c", "/etc/roxy/certs", "path to store certificates")
+	set.StringVar(&progArgs.email, "e", "", "email used by CAs to notify about problems with issued certificates")
 	set.BoolVar(&progArgs.noHttpRedirect, "r", false, "turn off automatic HTTP redirects (on by default)")
 
 	err := set.Parse(args)
@@ -85,8 +111,9 @@ func parseProgramArguments(args []string) (programArguments, error) {
 	if len(progArgs.proxies) == 0 {
 		return progArgs, fmt.Errorf("no proxy definitions provided, use -h for help")
 	}
+
 	if len(progArgs.certPath) == 0 {
-		log.Println("cert path is empty which is unusual; certs will be created in the current working directory")
+		log.Println("cert path (-c PATH) is empty which is unusual; certs will be created in the current working directory")
 	}
 
 	return progArgs, err
