@@ -110,7 +110,7 @@ func main() {
 		httpMux.HandleFunc("/", proxyInboundRequest(mutex, httpProxies, progArgs.noHttpRedirect))
 		httpServer := &http.Server{
 			Addr:    ":http",
-			Handler: httpMux,
+			Handler: m.HTTPHandler(httpMux),
 		}
 		err := httpServer.ListenAndServe()
 		if err != nil {
