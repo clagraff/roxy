@@ -12,7 +12,7 @@ RUN go mod download && go mod verify
 COPY . .
 
 # Build the Go application with CGO disabled for a fully static binary
-RUN CGO_ENABLED=0 GOOS=linux go build -o /roxy
+RUN CGO_ENABLED=0 GOOS=linux go build -o /usr/src/roxy/roxy
 
 # Stage 2: Prepare the runtime container
 FROM alpine:latest
