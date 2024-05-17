@@ -20,9 +20,6 @@ FROM alpine:latest
 # Update the Alpine image to ensure it's up to date
 RUN apk --no-cache update && apk --no-cache upgrade
 
-# Copy the binary from the builder stage
-COPY --from=builder /usr/local/bin/roxy /usr/local/bin/roxy
-
 # Expose the necessary ports
 EXPOSE 80
 EXPOSE 443
